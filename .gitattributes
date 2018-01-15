@@ -1,0 +1,5 @@
+
+# Deal with linefeed issues on checkin/checkout
+*.sh text eol=lf
+*.py text=auto
+*.kv text=auto
