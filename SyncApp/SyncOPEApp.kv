@@ -34,7 +34,38 @@
             text: "Cancel"
             on_release: root.dismiss()
 
-<StartScreen>:
+<WWWDownloadPopup@Popup>:
+    id: www_download_popup
+    title: 'Download Progress'
+    auto_dismiss: False
+    content: www_download_content
+    size: (750, 250)
+    size_hint: (None, None)
+    #on_open: controltofocus.focus = True
+    BoxLayout:
+        orientation: 'vertical'
+        id: www_download_content
+        Label:
+            text: ' '
+            text_size: self.size
+            markup: True
+            shorten: True
+            shorten_from: 'center'
+            ellipses_options: { 'color':(1,.5,.5,1),'underline':True }
+            id: www_dl_label
+            size_hint_y: 0.25
+            wrap: True
+            halign: 'left'
+        ProgressBar:
+            id: www_dl_progress
+            size_hint_y: 0.05
+        Button:
+            id: www_dl_cancel_button
+            text: 'Cancel'
+            on_press: app.cancel_www_download(); www_download_popup.dismiss()
+            size_hint_y: 0.1
+
+<StartScreen@Screen>:
     on_pre_enter: app.set_online_button_states(online_button, offline_button)
 
     BoxLayout:
@@ -75,6 +106,9 @@
                     on_release: app.close_app()
 
         Button:
+            text: "Release Notes - What's New?!"
+            on_press: root.manager.current="release_notes"
+        Button:
             text: "Overview - Getting Started"
             on_press: root.manager.current="getting_started"
         Button:
@@ -114,7 +148,7 @@
                 text: log_console.text
                 valign: 'top'
 
-<OnlineUpdateScreen>:
+<OnlineUpdateScreen@Screen>:
     #on_pre_enter: app.set_online_button_states(online_button, offline_button)
 
     BoxLayout:
@@ -195,7 +229,7 @@
             id: online_progress
             size_hint_y: .05
 
-<OfflineUpdateScreen>:
+<OfflineUpdateScreen@Screen>:
     #on_pre_enter: app.set_online_button_states(online_button, offline_button)
 
     BoxLayout:
@@ -278,7 +312,7 @@
 
 
 
-<VerifySettingsScreen>:
+<VerifySettingsScreen@Screen>:
     on_pre_enter: app.set_online_button_states(online_button, offline_button)
 
     BoxLayout:
@@ -328,10 +362,11 @@
             text: '...'
             id: verify_status_label
 
-<UtilitiesScreen>:
+<UtilitiesScreen@Screen>:
     on_pre_enter: app.set_online_button_states(online_button, offline_button)
 
-    BoxLayout:
+    GridLayout:
+        cols: 1
         orientation: 'vertical'
         ActionBar:
             pos_hint: { 'top': 1}
@@ -383,8 +418,19 @@
             text: "Update OPE Sync Boxes"
             # on_press: pass
             on_press: root.manager.current="update_sync_boxes"
+        
+        Button:
+            text: "Run Tests"
+            on_press: app.run_tests()
+            #size_hint: (1, 1) if app.is_debug() else (0, 0)
+            visible: app.is_debug()
+            size_hint_y: 0.15 if self.visible else 0
+            size_hint_x: 1 if self.visible else 0
+            opacity: 1 if self.visible else 0
+            disabled: not self.visible
+            
 
-<AppStatusScreen>:
+<AppStatusScreen@Screen>:
     on_pre_enter: app.set_online_button_states(online_button, offline_button); app.fill_apps_dropdown(app_dropdown);
     __safe_id: [app_dropdown.__self__]
     BoxLayout:
@@ -458,7 +504,7 @@
             markup: True
 
 
-<SyncBoxSubnetDropdown>:
+<SyncBoxSubnetDropdown@Dropdown>:
     Button:
         text: 'New SyncBox'
         size_hint_y: None
@@ -476,7 +522,7 @@
 
 
 
-<UpdateSyncBoxesScreen>:
+<UpdateSyncBoxesScreen@Screen>:
     on_pre_enter: app.set_online_button_states(online_button, offline_button)
 
     BoxLayout:
@@ -589,7 +635,7 @@
             markup: True
             #on_text: self.rv.scroll_y = 0  # in the scrolllable.py class
 
-<ManageFogScreen>:
+<ManageFogScreen@Screen>:
     on_pre_enter: app.set_online_button_states(online_button, offline_button)
 
     BoxLayout:
@@ -650,7 +696,7 @@
             text: 'Upload FOG Image - Upload to OPE Repo \n(NOTE: Only works online, not available for normal users)'
             on_press: root.manager.current="fog_upload"
 
-<FogImportScreen>:
+<FogImportScreen@Screen>:
     on_pre_enter: app.set_online_button_states(online_button, offline_button)
     on_enter: fog_import_from_usb_image._update_files()
 
@@ -726,7 +772,7 @@
             id: fog_image_import_progress
             #size_hint_y: .05
 
-<FogExportScreen>:
+<FogExportScreen@Screen>:
     on_enter: fog_export_to_usb_image.file_system = app.get_fog_export_image_list(); fog_export_to_usb_image._update_files()
     on_pre_enter: app.set_online_button_states(online_button, offline_button)
 
@@ -809,7 +855,7 @@
             #size_hint_y: .05
 
 
-<FogDownloadScreen>:
+<FogDownloadScreen@Screen>:
     on_pre_enter: app.set_online_button_states(online_button, offline_button)
     on_enter: fog_image_download_file.file_system = app.get_fog_image_list(); fog_image_download_file._update_files()
 
@@ -905,7 +951,7 @@
             id: fog_image_download_progress
             #size_hint_y: .05
 
-<FogUploadScreen>:
+<FogUploadScreen@Screen>:
     on_pre_enter: app.set_online_button_states(online_button, offline_button)
     on_enter: fog_image_upload_username.focus = True
 
@@ -1027,7 +1073,7 @@
             id: fog_image_upload_progress
             #size_hint_y: .05
 
-<OnlineModeScreen>:
+<OnlineModeScreen@Screen>:
     on_pre_enter: app.set_online_button_states(online_button, offline_button)
 
     BoxLayout:
@@ -1081,7 +1127,7 @@
         #    text: 'Sync - Move updates to USB drive\nE.g. app images, curriculum updates...'
         #    on_press: root.manager.current="online_sync"
 
-<OfflineModeScreen>:
+<OfflineModeScreen@Screen>:
     on_pre_enter: app.set_online_button_states(online_button, offline_button)
 
     BoxLayout:
@@ -1134,7 +1180,62 @@
         #    text: 'Sync - Move updates from USB drive to server\nE.g. app images, curriculum updates...'
         #    on_press: root.manager.current="offline_sync"
 
-<GettingStartedScreen>:
+<ReleaseNotesScreen@Screen>:
+    on_pre_enter: app.set_online_button_states(online_button, offline_button)
+
+    BoxLayout:
+        orientation: 'vertical'
+        ActionBar:
+            pos_hint: { 'top': 1}
+            ActionView:
+                ActionPrevious:
+                    title: 'OPE Admin Tool - Release Notes'
+                    with_previous: False
+                    app_icon: "logo_icon.png"
+                ActionOverflow:
+                #ActionButton:
+                #    text: 'Btn0'
+                #    icon: 'atlas://data/images/defaulttheme/audio-volume-high'
+                #    on_release: app.populate()
+
+                ActionLabel:
+                    text: "V" + app.APP_VERSION
+
+                ActionButton:
+                    text: "<-- Back"
+                    on_press: root.manager.current="start"
+                ActionToggleButton:
+                    id: online_button
+                    text: 'Online Mode'
+                    group: 'mode'
+                    allow_no_selection: False
+                    on_release: app.set_internet_mode('online')
+                ActionToggleButton:
+                    id: offline_button
+                    text: 'Offline Mode'
+                    group: 'mode'
+                    allow_no_selection: False
+                    on_release: app.set_internet_mode('offline')
+                ActionButton:
+                    text: "Settings (F1)"
+                    on_release: app.open_settings()
+                ActionButton:
+                    text: "Exit App"
+                    on_release: app.close_app()
+
+        ScrollView:
+            size_hint: (1, 1)
+            text: ''
+            Label:
+                markup: True
+                text: app.get_file("ReleaseNotes.md")
+                size_hint_y: None  # turn off auto height
+                # text_size: self.size
+                text_size: self.width, None  # Fit text width, but wrap forever
+                height: self.texture_size[1]  # Draw height
+                valign: 'top'
+
+<GettingStartedScreen@Screen>:
     on_pre_enter: app.set_online_button_states(online_button, offline_button)
 
     BoxLayout:
@@ -1222,7 +1323,7 @@
 #            pos: self.pos
 #            size: self.size
 
-<PickAppsScreen>:
+<PickAppsScreen@Screen>:
     on_pre_enter: app.set_online_button_states(online_button, offline_button)
 
     BoxLayout:
@@ -1341,7 +1442,21 @@
                     id: canvas_on
                     active: app.is_app_active('ope-canvas')
                     on_active: app.set_app_active('ope-canvas', self.active)
-
+                
+                GridLabel:
+                    text: "[b][color=00ff00]**[/color][/b] Canvas RCE Editor (DNS: rce[color=800080].ed[/color]) - Remote editor for Canvas (*** Required for full canvas functionality ***)"
+                GridSwitch:
+                    id: canvas_rce_on
+                    active: app.is_app_active('ope-canvas-rce')
+                    on_active: app.set_app_active('ope-canvas-rce', self.active)
+                
+                GridLabel:
+                    text: "[b][color=00ff00]**[/color][/b] Canvas Mathman Editor (DNS: mathman[color=800080].ed[/color]) - Remote math equation renderer for Canvas (*** Required for full canvas functionality ***)"
+                GridSwitch:
+                    id: canvas_mathman_on
+                    active: app.is_app_active('ope-canvas-mathman')
+                    on_active: app.set_app_active('ope-canvas-mathman', self.active)
+                
                 GridLabel:
                     text: "[b][color=00ff00]**[/color][/b] SMC (DNS: smc[color=800080].ed[/color]) - Student Management Console to import student accounts and integrate with Canvas and OPE Laptops"
                 GridSwitch:
