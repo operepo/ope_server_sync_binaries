@@ -106,8 +106,16 @@
                     on_release: app.close_app()
 
         Button:
-            text: "Release Notes - What's New?!"
+            text: "[color=33ff33]Release Notes - What's New?![/color]"
             on_press: root.manager.current="release_notes"
+            markup: True
+            color: 1, 0, 1, 1
+            canvas.before:
+                Color:
+                    rgba: 0,0,0,1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
         Button:
             text: "Overview - Getting Started"
             on_press: root.manager.current="getting_started"
