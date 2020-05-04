@@ -17,6 +17,6 @@ call %~dp0PullUpdates.cmd
 
 
 cd %~dp0SyncApp
-echo %cd%
+rem echo %cd%
 SyncApp.exe
 
