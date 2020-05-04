@@ -12,6 +12,15 @@ SET ESC_YELLOW=%ESC%33m
 cd %~dp0
 rem echo %~dp0
 
+rem echo checking for local git repo...
+if EXIST .git (
+  rem echo "Git repo exists..."
+) ELSE (
+  echo %ESC_GREEN% Initilizing Local Git Repo...
+  %~dp0\bin\bin\git.exe init  >> nul 2>&1
+  %~dp0\bin\bin\git.exe add . >> nul 2>&1
+)
+
 echo %ESC_GREEN%Updating SyncApp to the latest update...%ESC_RESET%
 
 rem Add the online origin

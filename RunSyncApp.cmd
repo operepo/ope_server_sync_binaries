@@ -1,23 +1,18 @@
 @echo off
+SETLOCAL ENABLEEXTENSIONS
+SETLOCAL ENABLEDELAYEDEXPANSION
+
+SET ESC=[
+SET ESC_CLEAR=%ESC%2j
+SET ESC_RESET=%ESC%0m
+SET ESC_GREEN=%ESC%32m
+SET ESC_RED=%ESC%31m
+SET ESC_YELLOW=%ESC%33m
+
 cd %~dp0
 
-rem Try and update from online or offline server
+echo %ESC_GREEN% --- Ensuring you have the latest version of the app --- %ESC_RESET%
 
-echo checking for local git repo...
-if EXIST .git (
-  echo "Git repo exists..."
-) ELSE (
-  echo "Git repo missing, init new repo..."
-  %~dp0\bin\bin\git.exe init
-  %~dp0\bin\bin\git.exe add .  
-  
-)
-
-echo Ensuring you have the latest version of the app...
-
-echo checking online for updates...
-
-echo Updating OPE Code...
 call %~dp0PullUpdates.cmd
 
 
