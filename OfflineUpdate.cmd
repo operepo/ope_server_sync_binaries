@@ -5,6 +5,8 @@ echo Updating OPE Code from SMC Server...
 %~dp0\bin\bin\git.exe remote remove ope_smc_origin
 %~dp0\bin\bin\git.exe remote add ope_smc_origin git://smc.ed/ope_server_sync_binaries.git
 %~dp0\bin\bin\git.exe pull ope_smc_origin master
+rem Force us to the current HEAD
+%~dp0\bin\bin\git.exe rebase HEAD master
 
 echo Update finished!
 pause
