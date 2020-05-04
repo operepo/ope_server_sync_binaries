@@ -8,7 +8,7 @@ echo Updating OPE Code...
 %~dp0\bin\bin\git.exe pull ope_origin master
 rem force us to the current head
 %~dp0\bin\bin\git.exe checkout master
-%~dp0\bin\bin\git.exe rebase ope_smc_origin/master
+%~dp0\bin\bin\git.exe rebase ope_origin/master
 
 echo Update finished!
 pause
