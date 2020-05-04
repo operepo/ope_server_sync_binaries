@@ -7,6 +7,8 @@ echo Updating OPE Code...
 %~dp0\bin\bin\git.exe remote add ope_origin https://github.com/operepo/ope_server_sync_binaries.git
 %~dp0\bin\bin\git.exe pull ope_origin master
 rem force us to the current head
-%~dp0\bin\bin\git.exe rebase HEAD master
+%~dp0\bin\bin\git.exe checkout master
+%~dp0\bin\bin\git.exe rebase ope_smc_origin/master
+
 echo Update finished!
 pause
