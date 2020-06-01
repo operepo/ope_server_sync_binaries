@@ -11,11 +11,19 @@ Short passwords no longer work! Please make sure you use proper password complex
 - Canvas not properly starting up with admin/root password too short
 
 ## [color=33ff33]CURRENT VERSIONS - Updated 5/8/2020[/color]
-- SyncApp 1.32
+- SyncApp 1.33
 - Laptop Credential 1.0.24
 - SMC 1.9.40
 
+## (NOT RELEASED YET)
+- LMS App
+  * Auto accept courses in Canvas during sync
+  * Show courses that aren't published during sync
+  * Better formatting/errors during sync
 
+## 6/1/2020
+- Sync App
+  * Add ope-ntp app - allow server to respond to time requests as well as sync from time.windows.com (or other specified source)
 
 ## 5/8/2020
 - SyncApp 1.32

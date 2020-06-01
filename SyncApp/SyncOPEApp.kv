@@ -583,7 +583,7 @@
                 "[b][color=00bb00]Existing Sync Boxes - From your normal Network [/color][/b]\n" + \
                 "If you are plugged into a normal PC on your inmate network, enter the [color=0000aa][b]DHCP subnet[/b][/color] you use for machines, the sync box should be found on one of these (e.g. we use 172.20.31)\n\n" + \
                 "[b][color=00bb00]Building Your Own Sync Boxes[/color][/b] \n" + \
-                "For first time config when building your own box, plug into one of the USB cables and use the subnet [color=0000aa][b]192.168.88[/b][/color] with NO password\n\n"
+                "For first time config when building your own box, plug into one of the USB cables and use the subnet [color=0000aa][b]192.168.88[/b][/color] with the password provided by your IT contact\n\n"
 
 
         BoxLayout:
@@ -1424,6 +1424,13 @@
                     id: dns_on
                     disabled: True
                     active: app.is_app_active('ope-dns')
+                
+                GridLabel:
+                    text: "[b][color=ff0000]**[/color][/b] NTP (DNS: ntp[color=800080].ed[/color]) - Deals with netowrk time requests to allow syncing clocks"
+                GridSwitch:
+                    id: ntp_on
+                    disabled: True
+                    active: app.is_app_active('ope-ntp')
 
                 GridLabel:
                     text: "[b][color=ff0000]**[/color][/b] Redis (DNS: redis[color=800080].ed[/color]) - Memory caching server, used by Canvas and other apps"
